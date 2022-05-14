@@ -14,10 +14,9 @@
 		voteProps.artists = state.artists || [];
 		voteProps.participants = state.participants || [];
 		voteProps.votes = Object.assign(
-			{},
-			state.votes,
+			state.votes || {},
 			...voteProps.artists.map((a) => ({[a]: {}})),
-			...Object.keys(state.votes).filter((a) => state.artists.includes(a)).map((a) => ({[a]: state.votes[a]})),
+			...Object.keys(state.votes || {}).filter((a) => state.artists.includes(a)).map((a) => ({[a]: state.votes[a]})),
 		);
 		voteProps.finished = !!state.finished;
 	});
@@ -54,7 +53,19 @@
 	}
 
 	function finishGame() {
+		editingArtists = false;
+		editingParticipants = false;
+		voteProps.finished = true;
+		gameState.set(voteProps);
+	}
 
+	function newGame() {
+		gameState.set({
+			artists: [],
+			participants: [],
+			votes: {},
+			finished: false,
+		});
 	}
 </script>
 
@@ -63,6 +74,8 @@
 	{#if !editingParticipants && !editingArtists}
 	<VoteTable {...voteProps} on:vote={updateVote}></VoteTable>
 	{/if}
+
+	{#if !voteProps.finished}
 
 	{#if editingParticipants}
 	<EditItems items={voteProps.participants} on:save={updateParticipants} on:cancel={() => editingParticipants = false}></EditItems>
@@ -77,6 +90,9 @@
 	{/if}
 
 	<button on:click={finishGame}>Finish!</button>
+	{:else}
+	<button on:click={newGame}>New game</button>
+	{/if}
 </main>
 
 <style>
