@@ -32,9 +32,16 @@ const artists2022 = [
 
 const gameKey = 'eurovisionPartyState';
 
+const initNewGame = () => ({
+    artists: artists2022,
+    participants: [],
+    votes: {},
+    finished: false,
+})
+
 const updater = (key) => (value) => localStorage.setItem(key, JSON.stringify(value));
 
-const storedGameState = JSON.parse(localStorage.getItem(gameKey) || JSON.stringify(newGame()));
+const storedGameState = JSON.parse(localStorage.getItem(gameKey) || JSON.stringify(initNewGame()));
 storedGameState.artists = artists2022;
 
 export const gameState = writable(storedGameState);
@@ -42,10 +49,5 @@ export const gameState = writable(storedGameState);
 gameState.subscribe(updater(gameKey));
 
 export function newGame() {
-    gameState.set({
-        artists: artists2022,
-        participants: [],
-        votes: {},
-        finished: false,
-    });
+    gameState.set(initNewGame());
 }
