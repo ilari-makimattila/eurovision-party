@@ -42,6 +42,14 @@
         return 0;
     }
 
+    function formatNumber(n) {
+        if (n !== '') {
+            return Number(n).toFixed(2);
+        } else {
+            return '';
+        }
+    }
+
     $: {
         artistScores = Object.keys(votes).map(artistScore);
         winner = finished ? artistScores
@@ -169,7 +177,7 @@
         <tfoot>
             <tr>
                 {#each artistScores as score, idx}
-                <th class:winner={idx === winner}>{score}</th>
+                <th class:winner={idx === winner}>{formatNumber(score)}</th>
                 {/each}
             </tr>
         </tfoot>
