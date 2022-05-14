@@ -1,7 +1,7 @@
 <script lang="ts">
 	import EditItems from "./EditList.svelte";
 	import VoteTable from "./VoteTable.svelte";
-	import {gameState} from './store';
+	import {gameState, constantArtists, newGame} from './store';
 
 	let voteProps = {
 		artists: [],
@@ -59,14 +59,6 @@
 		gameState.set(voteProps);
 	}
 
-	function newGame() {
-		gameState.set({
-			artists: [],
-			participants: [],
-			votes: {},
-			finished: false,
-		});
-	}
 </script>
 
 <main>
@@ -85,7 +77,7 @@
 
 	{#if editingArtists}
 	<EditItems items={voteProps.artists} on:save={updateArtists} on:cancel={() => editingArtists = false}></EditItems>
-	{:else if !editingParticipants}
+	{:else if !editingParticipants && !constantArtists}
 	<button on:click={() => editingArtists = true}>Edit artists</button>
 	{/if}
 

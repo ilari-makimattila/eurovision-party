@@ -40,6 +40,7 @@
 
     function addItem() {
         editList.push(newItem);
+        newItem = '';
         editList = editList;
         dirty = true;
     }
@@ -66,26 +67,35 @@
 
 
 <style>
+    button.edit {
+        padding: 0;
+        width: 1.3cm;
+        height: 1.3cm;
+        border: none;
+    }
 
+    button {
+        width: 100%;
+    }
 </style>
 
 <table>
     {#each editList as item, idx}
         <tr>
             <td>{item}</td>
-            <td><button on:click={() => moveUp(idx)}>⇧</button></td>
-            <td><button on:click={() => moveDown(idx)}>⇩</button></td>
-            <td><button on:click={() => remove(idx)}>🗑</button></td>
+            <td><button class="edit" on:click={() => moveUp(idx)}>⇧</button></td>
+            <td><button class="edit" on:click={() => moveDown(idx)}>⇩</button></td>
+            <td><button class="edit danger" on:click={() => remove(idx)}>🗑</button></td>
         </tr>
     {/each}
     <tr>
         <td><input type="text" bind:value={newItem}></td>
-        <td colspan="3"><button on:click={addItem}>Add</button></td>
+        <td colspan="3"><button class="action" disabled={!newItem} on:click={addItem}>Add</button></td>
     </tr>
     <tfoot>
         <tr>
-            <td colspan="2"><button on:click={save}>Save changes</button></td>
-            <td colspan="2"><button on:click={cancel}>Cancel</button></td>
+            <td colspan="1"><button on:click={save}>Save changes</button></td>
+            <td colspan="3"><button class="danger" on:click={cancel}>Cancel</button></td>
         </tr>
     </tfoot>
 </table>

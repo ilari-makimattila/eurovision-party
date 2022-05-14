@@ -48,6 +48,7 @@ button {
 	color: #333;
 	background-color: #f4f4f4;
 	outline: none;
+	border-radius: 0.2cm;
 }
 
 button:disabled {
@@ -60,4 +61,12 @@ button:not(:disabled):active {
 
 button:focus {
 	border-color: #666;
+}
+
+button.action {
+	background-color: #405cf5;
+}
+
+button.danger {
+	background-color: #ff4742;
 }
